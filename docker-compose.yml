@@ -18,9 +18,12 @@ services:
       - 3000:3000
     environment:
       MYSQL_USER: root
-      MYSQL_PASSWORD: password
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
       HOSTNAME: db
       JWT_SECRET: secretJWT
+      MYSQL_DB_NAME: blogs-api
+      NODE_ENV: development
   db:
     container_name: blogs_api_db
     image: mysql:8.0.21
@@ -30,7 +33,7 @@ services:
       - 3306:3306
       - 33060:33060
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
 
 networks:
   default:
