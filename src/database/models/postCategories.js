@@ -44,4 +44,4 @@ const PostCategories = (sequelize, DataTypes) => {
   return PostCategories;
 };
 
-module.exports = PostsCategories;
+module.exports = PostCategories;
