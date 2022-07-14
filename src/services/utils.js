@@ -15,9 +15,15 @@ const throwValidationError = (message) => {
   err.name = 'ValidationError';
   throw err;
 };
+const throwConflictError = (message) => {
+  const err = new Error(message);
+  err.name = 'Conflict';
+  throw err;
+};
 
 module.exports = {
   throwNotFoundError,
   throwUnauthorizedError,
   throwValidationError,
+  throwConflictError,
 };

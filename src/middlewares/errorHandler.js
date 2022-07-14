@@ -4,6 +4,7 @@ const errors = {
   NotFoundError: 404,
   SequelizeUniqueConstraintError: 409,
   JsonWebTokenError: 401,
+  Conflict: 409,
 };
 
 const errorHandler = ({ name, message }, _req, res, _next) => {
