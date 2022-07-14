@@ -1,9 +1,28 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 
-const { throwValidationError } = require('./utils');
+const { throwValidationError, throwUnauthorizedError } = require('./utils');
 
 const authService = {
+  validateAuthorization: async (auth) => {
+    const schema = Joi.string().required();
+    try {
+      const result = await schema.validateAsync(auth);
+      const [, token] = result.split(' ');
+      return token;
+    } catch (err) {
+      throwUnauthorizedError();
+    }
+  },
+  createToken: (user) => {
+    const { password, ...personalData } = user;
+    const payload = { data: personalData };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '15d',
+      algorithm: 'HS256',
+    });
+    return token;
+  },
   validateBodyLogin: async (body) => {
     const schema = Joi.object({
       email: Joi.string().email().max(255).required(),
@@ -25,15 +44,6 @@ const authService = {
     });
       const data = await schema.validateAsync(body);
       return data;
-  },
-  createToken: (user) => {
-    const { password, ...personalData } = user;
-    const payload = { data: personalData };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '15d',
-      algorithm: 'HS256',
-    });
-    return token;
   },
 };
 

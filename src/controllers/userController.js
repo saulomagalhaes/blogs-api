@@ -9,6 +9,9 @@ const userController = {
     const token = authService.createToken(data);
     res.status(201).json({ token });
   },
+  getAllUsers: async (req, res) => {
+    
+  },
 };
 
 module.exports = userController;
