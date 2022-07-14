@@ -1,6 +1,6 @@
-const Categories = (sequelize, DataTypes) => {
-  const Categories = sequelize.define(
-    "Categories",
+const Category = (sequelize, DataTypes) => {
+  const Category = sequelize.define(
+    "Category",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -19,7 +19,7 @@ const Categories = (sequelize, DataTypes) => {
     }
   );
 
-  return Categories;
+  return Category;
 };
 
-module.exports = Categories;
+module.exports = Category;
