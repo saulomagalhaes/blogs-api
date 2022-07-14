@@ -52,6 +52,13 @@ const authService = {
       const data = await schema.validateAsync(body);
       return data;
   },
+  validateCreateCategory: async (body) => {
+    const schema = Joi.object({
+      name: Joi.string().max(255).required(),
+    });
+    const data = await schema.validateAsync(body);
+    return data;
+  },
 };
 
 module.exports = authService;
