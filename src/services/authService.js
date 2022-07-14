@@ -1,14 +1,13 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 
-const { throwValidationError, throwUnauthorizedError } = require('./utils');
+const { throwValidationError, throwUnauthorizedError, throwJsonWebTokenError } = require('./utils');
 
 const authService = {
   validateAuthorization: async (auth) => {
     const schema = Joi.string().required();
     try {
-      const result = await schema.validateAsync(auth);
-      const [, token] = result.split(' ');
+      const token = await schema.validateAsync(auth);
       return token;
     } catch (err) {
       throwUnauthorizedError();
@@ -22,6 +21,14 @@ const authService = {
       algorithm: 'HS256',
     });
     return token;
+  },
+  readToken: (token) => {
+    try {
+      const { data } = jwt.verify(token, process.env.JWT_SECRET);
+      return data;
+    } catch (err) {
+      throwJsonWebTokenError('Expired or invalid token');
+    }
   },
   validateBodyLogin: async (body) => {
     const schema = Joi.object({

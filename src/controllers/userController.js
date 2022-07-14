@@ -10,7 +10,10 @@ const userController = {
     res.status(201).json({ token });
   },
   getAllUsers: async (req, res) => {
-    
+    const token = await authService.validateAuthorization(req.headers.authorization);
+    await authService.readToken(token);
+    const users = await userService.getAllUsers();
+    res.status(200).json(users);
   },
 };
 
