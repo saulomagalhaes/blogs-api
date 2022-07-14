@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { throwConflictError } = require('./utils');
+const { throwConflictError, throwNotFoundError } = require('./utils');
 
 const userService = {
   getByEmailOrThrows: async (email) => {
@@ -12,8 +12,20 @@ const userService = {
     return true;
   },
   getAllUsers: async () => {
-    const users = await User.findAll({ attributes: { exclude: ['password'] }, raw: true });
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] },
+      raw: true,
+    });
     return users;
+  },
+  getById: async (id) => {
+    const user = await User.findOne({
+      where: { id },
+      attributes: { exclude: ['password'] },
+      raw: true,
+    });
+    if (!user) throwNotFoundError('User does not exist');
+    return user;
   },
 };
 
