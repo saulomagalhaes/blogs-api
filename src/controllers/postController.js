@@ -9,6 +9,12 @@ const postController = {
     const post = await postService.create(id, data);
     res.status(201).json(post);
   },
+  getByAllPostsUsersAndCategories: async (req, res) => {
+    const token = await authService.validateAuthorization(req.headers.authorization);
+    await authService.readToken(token);
+    const data = await postService.getByAllPostsUsersAndCategories();
+    res.status(200).json(data);
+  },
 };
 
 module.exports = postController;

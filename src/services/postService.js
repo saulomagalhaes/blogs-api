@@ -3,7 +3,7 @@ const config = require('../database/config/config');
 
 const sequelize = new Sequelize(config.development);
 
-const { BlogPost, Category, PostCategory } = require('../database/models');
+const { BlogPost, Category, PostCategory, User } = require('../database/models');
 const { throwValidationError } = require('./utils');
 
 const postService = {
@@ -23,6 +23,15 @@ const postService = {
         { transaction: t },
       );
       return newPost;
+    });
+    return result;
+  },
+  getByAllPostsUsersAndCategories: async () => {
+    const result = await BlogPost.findAll({ 
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories' },
+      ],
     });
     return result;
   },
