@@ -59,6 +59,19 @@ const authService = {
     const data = await schema.validateAsync(body);
     return data;
   },
+  validateCreatePost: async (body) => {
+    const schema = Joi.object({
+      title: Joi.string().max(255).required(),
+      content: Joi.string().max(255).required(),
+      categoryIds: Joi.array().items(Joi.number()).required(),
+    });
+    try {
+      const data = await schema.validateAsync(body);
+      return data;
+    } catch (error) {
+      throwValidationError('Some required fields are missing');
+    }
+  },
 };
 
 module.exports = authService;
