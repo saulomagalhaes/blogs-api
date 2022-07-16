@@ -4,7 +4,7 @@ const throwNotFoundError = (message) => {
   throw err;
 };
 
-const throwUnauthorizedError = (message = 'Token not found') => {
+const throwUnauthorizedError = (message = 'Unauthorized user') => {
   const err = new Error(message);
   err.name = 'UnauthorizedError';
   throw err;

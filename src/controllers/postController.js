@@ -22,6 +22,15 @@ const postController = {
     const data = await postService.getPostById(id);
     res.status(200).json(data);
   },
+  update: async (req, res) => {
+    const editedPost = await authService.validateUpdatePost(req.body);
+    const token = await authService.validateAuthorization(req.headers.authorization);
+    const { id: idToken } = await authService.readToken(token);
+    const { id } = req.params;
+    await postService.checkPostUserId(id, idToken);
+    const post = await postService.update(id, editedPost);
+    res.status(200).json(post);
+  },
 };
 
 module.exports = postController;

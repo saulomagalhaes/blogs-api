@@ -10,7 +10,7 @@ const authService = {
       const token = await schema.validateAsync(auth);
       return token;
     } catch (err) {
-      throwUnauthorizedError();
+      throwUnauthorizedError('Token not found');
     }
   },
   createToken: (user) => {
@@ -64,6 +64,18 @@ const authService = {
       title: Joi.string().max(255).required(),
       content: Joi.string().max(255).required(),
       categoryIds: Joi.array().items(Joi.number()).required(),
+    });
+    try {
+      const data = await schema.validateAsync(body);
+      return data;
+    } catch (error) {
+      throwValidationError('Some required fields are missing');
+    }
+  },
+  validateUpdatePost: async (body) => {
+    const schema = Joi.object({
+      title: Joi.string().max(255).required(),
+      content: Joi.string().max(255).required(),
     });
     try {
       const data = await schema.validateAsync(body);
