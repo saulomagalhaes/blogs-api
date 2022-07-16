@@ -60,6 +60,10 @@ const postService = {
     });
     return result;
   },
+  delete: async (id) => {
+    const result = await BlogPost.destroy({ where: { id } });
+    if (!result) throwNotFoundError('Post does not exist');
+  },
 };
 
 module.exports = postService;

@@ -31,6 +31,14 @@ const postController = {
     const post = await postService.update(id, editedPost);
     res.status(200).json(post);
   },
+  delete: async (req, res) => {
+    const token = await authService.validateAuthorization(req.headers.authorization);
+    const { id: idToken } = await authService.readToken(token);
+    const { id } = req.params;
+    await postService.checkPostUserId(id, idToken);
+    await postService.delete(id);
+    res.sendStatus(204);
+  },
 };
 
 module.exports = postController;
