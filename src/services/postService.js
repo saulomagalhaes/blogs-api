@@ -4,7 +4,7 @@ const config = require('../database/config/config');
 const sequelize = new Sequelize(config.development);
 
 const { BlogPost, Category, PostCategory, User } = require('../database/models');
-const { throwValidationError } = require('./utils');
+const { throwValidationError, throwNotFoundError } = require('./utils');
 
 const postService = {
   create: async (userId, { title, content, categoryIds }) => {
@@ -30,9 +30,19 @@ const postService = {
     const result = await BlogPost.findAll({ 
       include: [
         { model: User, as: 'user', attributes: { exclude: ['password'] } },
-        { model: Category, as: 'categories' },
+        { model: Category, as: 'categories', through: { attributes: [] } },
       ],
     });
+    return result;
+  },
+  getPostById: async (id) => {
+    const result = await BlogPost.findByPk(id, { 
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    if (!result) throwNotFoundError('Post does not exist');
     return result;
   },
 };
