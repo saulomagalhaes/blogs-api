@@ -64,6 +64,20 @@ const postService = {
     const result = await BlogPost.destroy({ where: { id } });
     if (!result) throwNotFoundError('Post does not exist');
   },
+  search: async (q) => {
+    const result = await BlogPost.findAll({ where: {
+      [Sequelize.Op.or]: [
+        { title: { [Sequelize.Op.like]: `%${q}%` } },
+        { content: { [Sequelize.Op.like]: `%${q}%` } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ], 
+  });
+  return result;
+  },
 };
 
 module.exports = postService;
