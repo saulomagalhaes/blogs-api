@@ -4,9 +4,9 @@ const router = express.Router();
 const postController = require('../controllers/postController');
 
 router.get('/search', postController.search);
-router.get('', postController.getByAllPostsUsersAndCategories);
+router.get('/', postController.getByAllPostsUsersAndCategories);
 router.get('/:id', postController.getPostById);
-router.post('', postController.create);
+router.post('/', postController.create);
 router.put('/:id', postController.update);
 router.delete('/:id', postController.delete);
 
