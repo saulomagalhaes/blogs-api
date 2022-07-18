@@ -5,20 +5,24 @@ API RESTful desenvolvida para gestão de usuários e conteúdos de um blog utili
 
 
 
-## Autores
+## Autor
 
 - [@saulomagalhaes](https://www.linkedin.com/in/sauloam/)
-
-
-## Stack utilizada
-
-**Back-end:** Node, Express, Sequelize, JWT e MySQL.
 
 
 ## Aprendizados
 
 Construção de uma API RESTful aplicando o padrão de arquitetura de software MSC (Model-Service-Controller), 
 utilização do Sequelize e autenticação com JWT. 
+
+## Melhorias
+
+Serão implementados testes de integração ao longo das próximas semanas.
+
+## Stack utilizada
+
+**Back-end:** Node, Express, Sequelize, JWT e MySQL.
+
 
 ## Rodando o servidor no Docker
 
@@ -199,3 +203,14 @@ Considere que o body é um objeto JSON, abaixo segue as chaves necessárias.
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `q`      | `string` | Termo a ser buscado|
+
+## Screenshots
+
+![Swagger](https://i.pinimg.com/originals/3a/10/3e/3a103e4da42a42f90a0909f33dd5dd23.jpg)
+![Insomnia](https://i.pinimg.com/originals/96/89/a0/9689a09b0d911602bd0eb380a0946843.jpg)
+
+
+## Licença
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
