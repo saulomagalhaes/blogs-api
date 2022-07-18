@@ -25,47 +25,101 @@
       "description": "Endpoints"
     }
   ],
-  "schemes": [
-    "http",
-    "https"
-  ],
-  "securityDefinitions": {
-    "Bearer": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
-    }
-  },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "security": [{ "JWT": [] }],
+  "schemes": ["http", "https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/login/": {
       "post": {
+        "tags": ["Login"],
+        "summary": "Login",
         "description": "",
-        "parameters": [],
+        "operationId": "login",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": [
+                { "message": "Some required fields are missing" },
+                { "message": "Invalid fields" }
+              ]
+            }
           }
         }
       }
     },
     "/user/": {
       "post": {
+        "tags": ["User"],
+        "summary": "Cadastrar usuário",
+        "operationId": "createUser",
         "description": "",
-        "parameters": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": [
+                {
+                  "message": "\"displayName\" length must be at least 8 characters long"
+                },
+                { "message": "\"email\" must be a valid email" },
+                {
+                  "message": "\"password\" length must be at least 6 characters long"
+                }
+              ]
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "examples": {
+              "application/json": [{ "message": "User already exists" }]
+            }
           }
         }
       },
       "get": {
+        "tags": ["User"],
+        "summary": "Listar usuários",
         "description": "",
+        "operationId": "listUsers",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "authorization",
@@ -75,14 +129,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
           }
         }
       }
     },
     "/user/{id}": {
       "get": {
+        "tags": ["User"],
+        "summary": "Buscar usuário pelo ID",
         "description": "",
+        "operationId": "getUserById",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -98,14 +159,27 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "examples": {
+              "application/json": [{ "message": "User does not exist" }]
+            }
           }
         }
       }
     },
     "/user/me": {
       "delete": {
+        "tags": ["User"],
+        "summary": "Deletar usuário",
         "description": "",
+        "operationId": "deleteUser",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "authorization",
@@ -122,22 +196,43 @@
     },
     "/categories/": {
       "post": {
+        "tags": ["Categories"],
+        "summary": "Cadastrar categoria",
         "description": "",
+        "operationId": "createCategory",
+        "produces": ["application/json"],
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewCategory"
+            }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": [{ "message": "\"name\" is required" }]
+            }
           }
         }
       },
       "get": {
+        "tags": ["Categories"],
+        "summary": "Listar categorias",
         "description": "",
+        "operationId": "listCategories",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "authorization",
@@ -147,14 +242,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Categories"
+            }
           }
         }
       }
     },
     "/post/search": {
       "get": {
+        "tags": ["Post"],
+        "summary": "Buscar postagens",
         "description": "",
+        "operationId": "searchPosts",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "authorization",
@@ -169,14 +271,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AllPosts"
+            }
           }
         }
       }
     },
     "/post/": {
       "get": {
+        "tags": ["Post"],
+        "summary": "Listar postagens",
         "description": "",
+        "operationId": "listPosts",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "authorization",
@@ -186,29 +295,56 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AllPosts"
+            }
           }
         }
       },
       "post": {
+        "tags": ["Post"],
+        "summary": "Cadastrar postagem",
         "description": "",
+        "operationId": "createPost",
+        "produces": ["application/json"],
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewPost"
+            }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": [
+                { "message": "Some required fields are missing" },
+                { "message": "\"categoryIds\" not found" }
+              ]
+            }
           }
         }
       }
     },
     "/post/{id}": {
       "get": {
+        "tags": ["Post"],
+        "summary": "Buscar postagem pelo ID",
         "description": "",
+        "operationId": "getPostById",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -224,18 +360,40 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "examples": {
+              "application/json": [{ "message": "Post does not exist" }]
+            }
           }
         }
       },
       "put": {
+        "tags": ["Post"],
+        "summary": "Atualizar postagem",
         "description": "",
+        "operationId": "updatePost",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewPost"
+            }
           },
           {
             "name": "authorization",
@@ -245,12 +403,33 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "examples": {
+              "application/json": {
+                "message": "Some required fields are missing"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": { "message": "Unauthorized user" }
+            }
           }
         }
       },
       "delete": {
+        "tags": ["Post"],
+        "summary": "Deletar postagem",
         "description": "",
+        "operationId": "deletePost",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -267,12 +446,37 @@
         "responses": {
           "204": {
             "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": { "message": "Unauthorized user" }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "examples": {
+              "application/json": { "message": "Post does not exist" }
+            }
           }
         }
       }
     }
   },
   "definitions": {
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "lewishamilton@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        }
+      }
+    },
     "User": {
       "type": "object",
       "properties": {
@@ -287,6 +491,27 @@
         "email": {
           "type": "string",
           "example": "lewishamilton@gmail.com"
+        },
+        "image": {
+          "type": "string",
+          "example": "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg"
+        }
+      }
+    },
+    "NewUser": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "example": "Lewis Hamilton"
+        },
+        "email": {
+          "type": "string",
+          "example": "lewishamilton@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
         },
         "image": {
           "type": "string",
@@ -315,6 +540,15 @@
             "type": "string",
             "example": "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg"
           }
+        }
+      }
+    },
+    "NewCategory": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Typescript"
         }
       }
     },
@@ -453,6 +687,78 @@
           "example": "2022-05-18T18:00:01.196Z"
         }
       }
+    },
+    "AllPosts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 3
+          },
+          "title": {
+            "type": "string",
+            "example": "Latest updates, August 1st"
+          },
+          "content": {
+            "type": "string",
+            "example": "The whole text for the blog post goes here in this key"
+          },
+          "userId": {
+            "type": "number",
+            "example": 1
+          },
+          "updated": {
+            "type": "string",
+            "example": "2022-05-18T18:00:01.196Z"
+          },
+          "published": {
+            "type": "string",
+            "example": "2022-05-18T18:00:01.196Z"
+          }
+        }
+      }
+    },
+    "NewPost": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Latest updates, August 1st"
+        },
+        "content": {
+          "type": "string",
+          "example": "The whole text for the blog post goes here in this key"
+        },
+        "categoryIds": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      }
+    },
+    "EditPost": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Latest updates, August 1st"
+        },
+        "content": {
+          "type": "string",
+          "example": "The whole text for the blog post goes here in this key"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "JWT": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey"
     }
   }
 }
