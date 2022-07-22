@@ -12,9 +12,9 @@ API RESTful desenvolvida para gestão de usuários e conteúdos de um blog utili
 
 ## Aprendizados
 
-Construção de uma API RESTful aplicando o padrão de arquitetura de software MSC (Model-Service-Controller);
-Utilização do Sequelize para manipular um banco de dados relacional;
-Autenticação com JWT.
+- Construção de uma API RESTful aplicando o padrão de arquitetura de software MSC (Model-Service-Controller);
+- Utilização do Sequelize para manipular um banco de dados relacional;
+- Autenticação com JWT.
 
 ## Melhorias
 
