@@ -1,7 +1,7 @@
 
 # Blogs API
 
-API RESTful desenvolvida para gestão de usuários e conteúdos de um blog utilizando Node, JWT, Sequelize e MySQL.
+API RESTful desenvolvida para gestão de usuários e conteúdos de um blog utilizando NodeJs, Express, JWT, Sequelize e MySQL.
 
 
 
@@ -12,8 +12,9 @@ API RESTful desenvolvida para gestão de usuários e conteúdos de um blog utili
 
 ## Aprendizados
 
-Construção de uma API RESTful aplicando o padrão de arquitetura de software MSC (Model-Service-Controller), 
-utilização do Sequelize e autenticação com JWT. 
+Construção de uma API RESTful aplicando o padrão de arquitetura de software MSC (Model-Service-Controller);
+Utilização do Sequelize para manipular um banco de dados relacional;
+Autenticação com JWT.
 
 ## Melhorias
 
