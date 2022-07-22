@@ -55,7 +55,7 @@ Suba o container Docker
 Execute o container
 
 ```bash
-   docker exec -it store_manager bash
+   docker exec -it blogs_api bash
 ```
 
 Execute as migrations
