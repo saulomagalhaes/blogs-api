@@ -16,10 +16,6 @@ API RESTful desenvolvida para gestão de usuários e conteúdos de um blog utili
 - Utilização do Sequelize para manipular um banco de dados relacional;
 - Autenticação com JWT.
 
-## Melhorias
-
-Serão implementados testes de integração ao longo das próximas semanas.
-
 ## Stack utilizada
 
 **Back-end:** Node, Express, Sequelize, JWT e MySQL.
